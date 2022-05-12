@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit Task
+{% endblock %}
+
+{% block main %}
+    <h2>
+        Edit Note
+    </h2>
+    <form action="/submittaskedit" method="post">
+        <div class="mb-3">
+            <input name="id" type="hidden" value="{{ id }}">
+            <textarea autocomplete="off" autofocus class="form-control" rows="4" id="editedtask" name="editedtask" type="text">{{ description|safe }}</textarea>
+        </div>
+        <div>
+            <label for="status">Select a status for this item:</label>
+            <select name="status" id="status">
+                <option value="todo" {% if status == 0 %} selected {% endif %}>To Do</option>
+                <option value="inprogress" {% if status == 1 %} selected {% endif %}>In Progress</option>
+                <option value="done" {% if status == 2 %} selected {% endif %}>Done</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Confirm</button>
+    </form>
+{% endblock %}

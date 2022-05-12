@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    To-Do-List
+{% endblock %}
+
+{% block main %}
+
+    <h2>
+        Your Tasks
+    </h2>
+        {% if not tasks %}
+            <p>No tasks yet.</p>
+        {% else %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        {# TODO: Look into fixed size tables with Bootstrap #}
+                        <th scope="col">#</th>
+                        <th scope="col">To Do</th>
+                        <th scope="col">In Progress</th>
+                        <th scope="col">Done</th>
+                    </tr>
+                </thead>
+            {% for task in tasks%}
+                {% if task[2] == 0 %}
+                {# TODO: Add next and previous status buttons #}
+                <tr>
+                    <td></td>
+                    <td>
+                        {{ task[1]|safe }}
+                        <form action="/edittask" method="post">
+                            <input name="id" type="hidden" value="{{ task[0] }}">
+                            <button class="btn btn-warning btn-sm" type="submit">Edit</button>
+                        </form>
+                        <form action="/removetask" method="post">
+                            <input name="id" type="hidden" value="{{ task[0] }}">
+                            <button class="btn btn-danger btn-sm" type="submit">Remove</button>
+                        </form>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                {% elif task[2] == 1 %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        {{ task[1]|safe }}
+                        <form action="/edittask" method="post">
+                            <input name="id" type="hidden" value="{{ task[0] }}">
+                            <button class="btn btn-warning btn-sm" type="submit">Edit</button>
+                        </form>
+                        <form action="/removetask" method="post">
+                            <input name="id" type="hidden" value="{{ task[0] }}">
+                            <button class="btn btn-danger btn-sm" type="submit">Remove</button>
+                        </form>
+                    </td>
+                    <td></td>
+                </tr>    
+                {% else %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        {{ task[1]|safe }}
+                        <form action="/edittask" method="post">
+                            <input name="id" type="hidden" value="{{ task[0] }}">
+                            <button class="btn btn-warning btn-sm" type="submit">Edit</button>
+                        </form>
+                        <form action="/removetask" method="post">
+                            <input name="id" type="hidden" value="{{ task[0] }}">
+                            <button class="btn btn-danger btn-sm" type="submit">Remove</button>
+                        </form>
+                    </td>
+                </tr>   
+                {% endif %}
+            {% endfor %}
+            </table>
+        {% endif %}
+    <h2>
+        New Task
+    </h2>
+    <form action="/tasks" method="post">
+        <div class="mb-3">
+            <textarea style="resize: none;" autocomplete="off" class="form-control" rows="3" maxlength="128" id="newtask" name="newtask" placeholder="New Item" type="text"></textarea>
+        </div>
+        <div>
+            <label for="status">Select a status for this item:</label>
+            <select name="status" id="status">
+                <option value="todo">To Do</option>
+                <option value="inprogress">In Progress</option>
+                <option value="done">Done</option>
+            </select>
+        </div>
+        <button class="btn btn-primary btn-sm" type="submit">Add Task</button>
+    </form>
+{% endblock %}

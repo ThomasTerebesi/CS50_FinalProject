@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Notes
+{% endblock %}
+
+{% block main %}
+    <h2>
+        Your Notes
+    </h2>
+        {% if not notes %}
+            <p>No notes yet.</p>
+        {% else %}
+            <table class="table table-hover">
+            {% for note in notes %}
+                <tr>
+                    {# TODO: Add a counter in front of each note #}
+                    <td>
+                        {{ note[1]|safe }}
+                    </td>
+                    <td>
+                        <form action="/editnote" method="post">
+                            <input name="id" type="hidden" value="{{ note[0] }}">
+                            <button class="btn btn-warning btn-sm" type="submit">Edit</button>
+                        </form>
+                        <form action="/removenote" method="post">
+                            <input name="id" type="hidden" value="{{ note[0] }}">
+                            <button class="btn btn-danger btn-sm" type="submit">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        {% endif %}
+    <h2>
+        New Note
+    </h2>
+    <form action="/notes" method="post">
+        <div class="mb-3">
+            <textarea autocomplete="off" class="form-control" rows="3" id="newnote" name="newnote" placeholder="New Note" type="text"></textarea>
+        </div>
+        <button class="btn btn-primary btn-sm" type="submit">Add Note</button>
+    </form>
+{% endblock %}

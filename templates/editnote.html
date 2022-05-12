@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit Note
+{% endblock %}
+
+{% block main %}
+    <h2>
+        Edit Note
+    </h2>
+    <form action="/submitnoteedit" method="post">
+        <div class="mb-3">
+            <input name="id" type="hidden" value="{{ id }}">
+            <textarea autocomplete="off" autofocus class="form-control" rows="4" id="editednote" name="editednote" type="text">{{ note|safe }}</textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Confirm</button>
+    </form>
+{% endblock %}
