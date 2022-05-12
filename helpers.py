@@ -24,19 +24,27 @@ def ensure_database():
     Ensure that there is a database with the right schema.
     """
 
-    print("yes")
-
     con = sqlite3.connect('data.db')
     cur = con.cursor()
 
     cur.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT NOT NULL, email TEXT NOT NULL, hash TEXT NOT NULL);")
     cur.execute("CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY, user_id INTEGER NOT NULL, note TEXT NOT NULL, FOREIGN KEY (user_id) REFERENCES users(id));");
     cur.execute("CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER NOT NULL, description TEXT NOT NULL, status INTEGER NOT NULL DEFAULT 0, FOREIGN KEY (user_id) REFERENCES users(id));")
+    cur.execute("CREATE TABLE IF NOT EXISTS timers (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER NOT NULL, seconds INTEGER NOT NULL DEFAULT 0, FOREIGN KEY (user_id) REFERENCES users(id));")
 
     con.commit()
     con.close()
 
 def move_task(id, n = 0):
+    """
+    Change a task's status by n.
+    """
+
+    # If n is not set, there is no need to execute all the code
+    if n == 0:
+        flash("# move_task(): n was not set")
+        return redirect("/tasks")
+
     con = sqlite3.connect('data.db')
     cur = con.cursor()
 
@@ -48,7 +56,8 @@ def move_task(id, n = 0):
             flash("task does not exist for this user")
             return redirect("/tasks")
         else:
-            cur.execute("UPDATE tasks SET status = ? WHERE id = ? AND user_id = ?", [task[3] + (1 * n), id, session["user_id"]])
+            # Modify the status value contained in task[3] by n
+            cur.execute("UPDATE tasks SET status = ? WHERE id = ? AND user_id = ?", [task[3] + n, id, session["user_id"]])
             con.commit()
     
     con.close()
