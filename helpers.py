@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import redirect, session
+from flask import flash, redirect, request, session
 from os.path import exists
 
 import sqlite3
@@ -34,6 +34,23 @@ def ensure_database():
     cur.execute("CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER NOT NULL, description TEXT NOT NULL, status INTEGER NOT NULL DEFAULT 0, FOREIGN KEY (user_id) REFERENCES users(id));")
 
     con.commit()
+    con.close()
+
+def move_task(id, n = 0):
+    con = sqlite3.connect('data.db')
+    cur = con.cursor()
+
+    if id:
+        cur.execute("SELECT * FROM tasks WHERE id = ? AND user_id = ?", [id, session["user_id"]])
+        task = cur.fetchone()
+        print(task)
+        if not task:
+            flash("task does not exist for this user")
+            return redirect("/tasks")
+        else:
+            cur.execute("UPDATE tasks SET status = ? WHERE id = ? AND user_id = ?", [task[3] + (1 * n), id, session["user_id"]])
+            con.commit()
+    
     con.close()
 
 

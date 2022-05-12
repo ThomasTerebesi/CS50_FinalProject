@@ -1,23 +1,25 @@
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
-from helpers import ensure_database, login_required
+from helpers import ensure_database, login_required, move_task
 from markupsafe import escape
 from werkzeug.security import check_password_hash, generate_password_hash
 
 import sqlite3
 
 
-
 # Configure Flask
 app = Flask(__name__)
+
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+
 # Make sure that there is a database with the correct tables
 ensure_database()
+
 
 @app.route("/")
 def index():
@@ -303,7 +305,7 @@ def submit_note_edit():
         cur = con.cursor()
 
         id = request.form.get("id")
-        edited_note = request.form.get("editednote")
+        edited_note = escape(request.form.get("editednote"))
 
         if id:
             cur.execute("SELECT * FROM notes WHERE id = ? AND user_id = ?", [id, session["user_id"]])
@@ -374,7 +376,7 @@ def submit_task_edit():
         cur = con.cursor()
 
         id = request.form.get("id")
-        edited_description = request.form.get("editedtask")
+        edited_description = escape(request.form.get("editedtask"))
         edited_status = request.form.get("status")
 
         # Generate status code
@@ -413,9 +415,24 @@ def submit_task_edit():
 @app.route("/nextstatus", methods=["GET", "POST"])
 @login_required
 def next_status():
-    return redirect("/tasks")
+    if request.method == "POST":
+        # Go to next status, increasing it by 1
+        move_task(request.form.get("id"), 1)
+        return redirect("/tasks")
+
+    else:
+        flash("cannot move a task like this")
+        return redirect("/tasks")
+
 
 @app.route("/prevstatus", methods=["GET", "POST"])
 @login_required
 def previous_status():
-    return redirect("/tasks")
+    if request.method == "POST":
+        # Go to previous status, decreasing it by 1
+        move_task(request.form.get("id"), -1)
+        return redirect("/tasks")
+
+    else:
+        flash("cannot move a task like this")
+        return redirect("/tasks")
