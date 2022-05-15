@@ -9,8 +9,11 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Roboto Slab', serif;
 }
 
-
-
 .main h1, h2, h3, h4, h5, h6 {
     border-bottom: 2px solid #181808;
+}
+
+.timer {
+    font-size: 48px;
+    font-style: italic;
 }
