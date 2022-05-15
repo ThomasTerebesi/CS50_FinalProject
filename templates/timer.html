@@ -6,8 +6,32 @@
 
 {% block main %}
     <h2>
-        Timer
+        Set Timer
     </h2>
-    <p class="timer" id="timer"></p>
+    <form action="/addtimer" method="post">
+        <div class="form-row">
+            <div class="col-6">
+                <input autocomplete="off" autofocus class="form-control" name="min" placeholder="min" id="min" type="text" value="10">
+            </div>
+            :
+            <div class="col-6">
+                <input autocomplete="off" autofocus class="form-control" name="sec" placeholder="sec" id="sec" type="text" value="00">
+            </div>
+        </div>
+        <button class="btn btn-primary btn-sm" type="button" id="set">Set Timer</button>
+    </form>
+    <h4>
+        Recent
+    </h4>
+    <h4>
+        Presets
+    </h4>
+    <h2>
+        Current Timer
+    </h2>
+    <p class="timer" id="timer">00:00</p>
+    <form>
+        <button class="btn btn-primary btn-sm" type="button" id="pause">Pause</button>
+    </form>
     <script src="{{url_for('static', filename='timer.js')}}"></script>
 {% endblock %}

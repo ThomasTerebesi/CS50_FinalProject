@@ -249,13 +249,6 @@ def notes():
         return render_template("notes.html", notes=notes)
 
 
-@app.route("/timer")
-@login_required
-def timer():
-    # TODO
-    return render_template("timer.html")
-
-
 @app.route("/removenote", methods=["GET", "POST"])
 @login_required
 def remove_note():
@@ -436,3 +429,16 @@ def previous_status():
     else:
         flash("cannot move a task like this")
         return redirect("/tasks")
+
+
+@app.route("/timer")
+@login_required
+def timer():
+    # TODO
+    return render_template("timer.html")
+
+
+@app.route("/addtimer")
+@login_required
+def add_timer():
+    return()
