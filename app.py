@@ -1,11 +1,10 @@
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
-from helpers import ensure_database, login_required, move_task
+from helpers import ensure_database, generate_task_stats, login_required, move_task
 from markupsafe import escape
 from werkzeug.security import check_password_hash, generate_password_hash
 
 import sqlite3
-
 
 # Configure Flask
 app = Flask(__name__)
@@ -45,7 +44,9 @@ def register():
         
         # Check if username already exists in database
         cur.execute("SELECT * FROM users WHERE username = ?", [request.form.get("username")])
-        if cur.fetchone() == escape(request.form.get("username")):
+        user_hit = cur.fetchone()
+
+        if user_hit:
             flash("username already exists")
             con.close()
             return render_template("register.html")
@@ -58,7 +59,9 @@ def register():
 
         # Check if email address already exists in database
         cur.execute("SELECT * FROM users WHERE email = ?", [escape(request.form.get("email"))])
-        if cur.fetchone() == escape(request.form.get("email")):
+        email_hit = cur.fetchone()
+
+        if email_hit:
             flash("email address already in use")
             con.close()
             return render_template("register.html")
@@ -207,11 +210,9 @@ def tasks():
         tasks = cur.fetchall()
         con.close()
 
-        # print(tasks)
-
         # TODO: If possible, replace '\n' characters
 
-        return render_template("tasks.html", tasks=tasks)
+        return render_template("tasks.html", tasks=tasks, img_url=generate_task_stats())
 
 
 @app.route("/notes", methods=["GET", "POST"])

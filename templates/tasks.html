@@ -103,6 +103,14 @@
             </table>
         {% endif %}
     <h2>
+        Task Statistics
+    </h2>
+    {% if not img_url %}
+        <p>No statistics yet.</p>
+    {% else %}
+        <img class="img-fluid" src="data:image/png;base64, {{ img_url }}">
+    {% endif %}
+    <h2>
         New Task
     </h2>
     <form action="/tasks" method="post">

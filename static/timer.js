@@ -1,11 +1,11 @@
 // Get seconds from document and store them as integer values
-const userSeconds = parseInt(document.getElementById("sec").value) + (parseInt(document.getElementById("min").value) * 60);
-
 let timerInterv;
 let isPaused = false;
 
 const set_button = document.getElementById('set');
-set_button.addEventListener('click', startTimer(userSeconds), false);
+set_button.addEventListener('click', event => {
+    startTimer(parseInt(document.getElementById("sec").value) + (parseInt(document.getElementById("min").value) * 60));
+});
 
 function startTimer(totalSeconds) {
     // Timer based on the following tutorial: https://youtu.be/x7WJEmxNlEs
@@ -50,7 +50,7 @@ function startTimer(totalSeconds) {
             }
             else {
                 // TODO: Play sound? Alert? Flash "00:00" a couple of times?
-                alert("totalSeconds'S UP!");
+                alert("TIME'S UP!");
                 clearInterval(timerInterv);
                 return;
             }
@@ -77,11 +77,6 @@ console.log(preset_buttons);
 
 preset_buttons.forEach(element => {
     element.addEventListener('click', event => {
-        if (isPaused) {
-            isPaused = false;
-            pause_button.innerHTML = 'Pause';
-        }
-
         startTimer(element.value);
-    })
-})
+    });
+});

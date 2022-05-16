@@ -1,8 +1,12 @@
 from functools import wraps
-from flask import flash, redirect, request, session
-from os.path import exists
+from flask import flash, redirect, session
+from io import BytesIO
 
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 import sqlite3
+import base64
 
 def login_required(f):
     """
@@ -48,12 +52,10 @@ def move_task(id, n = 0):
     con = sqlite3.connect('data.db')
     cur = con.cursor()
 
-    
-
     if id:
         cur.execute("SELECT * FROM tasks WHERE id = ? AND user_id = ?", [id, session["user_id"]])
         task = cur.fetchone()
-        print(task)
+
         if not task:
             flash("task does not exist for this user")
             return redirect("/tasks")
@@ -73,3 +75,66 @@ def move_task(id, n = 0):
     con.close()
 
 
+def generate_task_stats():
+    """
+    Generates statistics for existing tasks.
+    """
+
+    labels = []
+    sizes = []
+
+    # Call separate function to add data to the two lists above
+    check_and_append(labels, sizes)
+
+    # Do not generate statistics if there is no data
+    if len(labels) == 0:
+        return None
+    
+    # Generate plot
+    plt.style.use('seaborn-pastel')
+
+    fig, ax = plt.subplots()
+    ax.pie(sizes, explode=None, labels=labels, autopct="%1.1f%%", shadow=False, startangle=90)
+    ax.axis("equal")
+    fig.set_facecolor("#f3f3f3")
+
+    # Save plot as image URL
+    img = BytesIO()
+    plt.savefig(img, format="png", bbox_inches='tight')
+    plt.close()
+    img.seek(0)
+    img_url = base64.b64encode(img.getvalue()).decode("utf8")
+
+    return(img_url)
+
+
+def check_and_append(labels = [], sizes = []):
+    """
+    Checks whether tasks exist and appends their data to the supplied lists, depending on the tasks respective status.
+    """
+
+    label = ""
+
+    # Loop through each status
+    for status in range(3):
+        if status == 0:
+            label = "To Do"
+        elif status == 1:
+            label = "In Progress"
+        elif status == 2: 
+            label = "Done"
+
+        con = sqlite3.connect('data.db')
+        cur = con.cursor()
+
+        cur.execute("SELECT * FROM tasks WHERE status = ? AND user_id = ?", [status, session["user_id"]])
+        tasks = cur.fetchall()
+
+        # If there are any tasks for this status...
+        if len(tasks) > 0:
+            # ... append the respective status label ...
+            labels.append(label)
+            # ... and number of tasks with that status
+            sizes.append(len(tasks))
+
+        con.close()
