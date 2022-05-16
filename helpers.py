@@ -48,6 +48,8 @@ def move_task(id, n = 0):
     con = sqlite3.connect('data.db')
     cur = con.cursor()
 
+    
+
     if id:
         cur.execute("SELECT * FROM tasks WHERE id = ? AND user_id = ?", [id, session["user_id"]])
         task = cur.fetchone()
@@ -55,6 +57,14 @@ def move_task(id, n = 0):
         if not task:
             flash("task does not exist for this user")
             return redirect("/tasks")
+        # Task may not have a status smaller than zero
+        elif task[3] + n < 0:
+            cur.execute("UPDATE tasks SET status = ? WHERE id = ? AND user_id = ?", [0, id, session["user_id"]])
+            con.commit()
+        # Task may not have a status larger than two
+        elif task[3] + n > 2:
+            cur.execute("UPDATE tasks SET status = ? WHERE id = ? AND user_id = ?", [2, id, session["user_id"]])
+            con.commit()
         else:
             # Modify the status value contained in task[3] by n
             cur.execute("UPDATE tasks SET status = ? WHERE id = ? AND user_id = ?", [task[3] + n, id, session["user_id"]])

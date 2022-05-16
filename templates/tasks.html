@@ -24,7 +24,6 @@
                 </thead>
             {% for task in tasks%}
                 {% if task[2] == 0 %}
-                {# TODO: Add next and previous status buttons #}
                 <tr>
                     <td></td>
                     <td>
@@ -40,6 +39,10 @@
                         <form action="/nextstatus" method="post">
                             <input name="id" type="hidden" value="{{ task[0] }}">
                             <button class="btn btn-info btn-sm" type="submit">Next</button>
+                        </form>
+                        <form action="/prevstatus" method="post">
+                            <input name="id" type="hidden" value="{{ task[0] }}">
+                            <button disabled class="btn btn-info btn-sm" type="submit">Previous</button>
                         </form>
                     </td>
                     <td></td>
@@ -84,6 +87,10 @@
                         <form action="/removetask" method="post">
                             <input name="id" type="hidden" value="{{ task[0] }}">
                             <button class="btn btn-danger btn-sm" type="submit">Remove</button>
+                        </form>
+                        <form action="/nextstatus" method="post">
+                            <input name="id" type="hidden" value="{{ task[0] }}">
+                            <button disabled class="btn btn-info btn-sm" type="submit">Next</button>
                         </form>
                         <form action="/prevstatus" method="post">
                             <input name="id" type="hidden" value="{{ task[0] }}">
