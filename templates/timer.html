@@ -8,7 +8,7 @@
     <h2>
         Set Timer
     </h2>
-    <form action="/addtimer" method="post">
+    <form>
         <div class="form-row">
             <div class="col-6">
                 <input autocomplete="off" autofocus class="form-control" name="min" placeholder="min" id="min" type="text" value="10">
@@ -26,6 +26,19 @@
     <h4>
         Presets
     </h4>
+    <form>
+        <button class="btn btn-primary btn-sm" type="button" name="preset" value="60">1:00</button>
+        <button class="btn btn-primary btn-sm" type="button" name="preset" value="120">2:00</button>
+        <button class="btn btn-primary btn-sm" type="button" name="preset" value="180">3:00</button>
+        <button class="btn btn-primary btn-sm" type="button" name="preset" value="300">5:00</button>
+        <button class="btn btn-primary btn-sm" type="button" name="preset" value="600">10:00</button>
+        <button class="btn btn-primary btn-sm" type="button" name="preset" value="1200">20:00</button>
+        <button class="btn btn-primary btn-sm" type="button" name="preset" value="1500">25:00</button>
+        <button class="btn btn-primary btn-sm" type="button" name="preset" value="1800">30:00</button>
+        <button class="btn btn-primary btn-sm" type="button" name="preset" value="2700">45:00</button>
+        <button class="btn btn-primary btn-sm" type="button" name="preset" value="3600">60:00</button>
+    </form>
+
     <h2>
         Current Timer
     </h2>
