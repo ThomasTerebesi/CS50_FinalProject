@@ -22,12 +22,11 @@
                         <th scope="col">Done</th>
                     </tr>
                 </thead>
-            {% set count = 1 %}
             {% for task in tasks%}
                 {% if task[2] == 0 %}
                 <tr>
                     <td>
-                        {{ count }}
+                        {{ loop.index }}
                     </td>
                     <td>
                         {{ task[1]|safe }}
@@ -54,7 +53,7 @@
                 {% elif task[2] == 1 %}
                 <tr>
                     <td>
-                        {{ count }}
+                        {{ loop.index }}
                     </td>
                     <td>
 
@@ -83,13 +82,13 @@
                 {% else %}
                 <tr>
                     <td>
-                        {{ count }}
+                        {{ loop.index }}
                     </td>
                     <td>
 
                     </td>
                     <td>
-                        
+
                     </td>
                     <td>
                         {{ task[1]|safe }}
@@ -112,7 +111,6 @@
                     </td>
                 </tr>   
                 {% endif %}
-                {% set count = count + 1 %}
             {% endfor %}
             </table>
         {% endif %}
