@@ -1,5 +1,6 @@
 // Get seconds from document and store them as integer values
 let timerInterv;
+let blinkInterv;
 let isPaused = false;
 
 const set_button = document.getElementById('set');
@@ -16,9 +17,14 @@ function startTimer(totalSeconds) {
         pause_button.innerHTML = 'Pause';
     }
 
-    // If another interval is already set, clear that interval before starting a new one
+    // If another timer interval is already set, clear that interval before starting a new one
     if (timerInterv) {
         clearInterval(timerInterv);
+    }
+
+    // If a blink interval is already set, clear that interval before starting the timer
+    if (blinkInterv) {
+        clearInterval(blinkInterv);
     }
 
     // Get the element that is going to be changed each second
@@ -49,8 +55,7 @@ function startTimer(totalSeconds) {
                 totalSeconds--;
             }
             else {
-                // TODO: Play sound? Alert? Flash "00:00" a couple of times?
-                alert("TIME'S UP!");
+                ding();
                 clearInterval(timerInterv);
                 return;
             }
@@ -63,20 +68,27 @@ const pause_button = document.getElementById('pause');
 pause_button.addEventListener('click', togglePause, false);
 
 function togglePause() {
-    if (isPaused) {
-        isPaused = false;
-        pause_button.innerHTML = 'Pause';
-    } else {
-        isPaused = true;
-        pause_button.innerHTML = 'Continue';
+    if (!blinkInterv) {
+        if (isPaused) {
+            isPaused = false;
+            pause_button.innerHTML = 'Pause';
+        } else {
+            isPaused = true;
+            pause_button.innerHTML = 'Continue';
+        }
     }
 }
 
 const preset_buttons = document.getElementsByName('preset');
-console.log(preset_buttons);
 
 preset_buttons.forEach(element => {
     element.addEventListener('click', event => {
         startTimer(element.value);
     });
 });
+
+function ding() {
+    // The file path is relative to the HTML file that executes the script, not to the script itself
+    var audio = new Audio('../static/ding.mp3');    
+    audio.play();
+}

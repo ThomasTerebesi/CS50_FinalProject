@@ -5,9 +5,15 @@
 {% endblock %}
 
 {% block main %}
+    {% if session["user_id"] %}
+    <h3>
+        Welcome, {{ username }}
+    </h3>
+    {% else %}
     <h3>
         Welcome
     </h3>
+    {% endif %}
     <p>
         The purpose of this page is to provide the user with a selection of productivity tools.
     </p>

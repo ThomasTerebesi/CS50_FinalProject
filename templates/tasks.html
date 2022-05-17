@@ -22,10 +22,13 @@
                         <th scope="col">Done</th>
                     </tr>
                 </thead>
+            {% set count = 1 %}
             {% for task in tasks%}
                 {% if task[2] == 0 %}
                 <tr>
-                    <td></td>
+                    <td>
+                        {{ count }}
+                    </td>
                     <td>
                         {{ task[1]|safe }}
                         <form action="/edittask" method="post">
@@ -50,8 +53,12 @@
                 </tr>
                 {% elif task[2] == 1 %}
                 <tr>
-                    <td></td>
-                    <td></td>
+                    <td>
+                        {{ count }}
+                    </td>
+                    <td>
+
+                    </td>
                     <td>
                         {{ task[1]|safe }}
                         <form action="/edittask" method="post">
@@ -75,9 +82,15 @@
                 </tr>    
                 {% else %}
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                        {{ count }}
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                        
+                    </td>
                     <td>
                         {{ task[1]|safe }}
                         <form action="/edittask" method="post">
@@ -99,6 +112,7 @@
                     </td>
                 </tr>   
                 {% endif %}
+                {% set count = count + 1 %}
             {% endfor %}
             </table>
         {% endif %}

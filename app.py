@@ -22,7 +22,21 @@ ensure_database()
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    if session.get("user_id") is None:
+        return render_template("index.html")
+    else:
+        con = sqlite3.connect('data.db')
+        con.row_factory = lambda cursor, row: row[0]
+        cur = con.cursor()
+
+        cur.execute("SELECT username FROM users WHERE id = ?", [session["user_id"]])
+        username = cur.fetchone()
+
+        con.close()
+
+        return render_template("index.html", username = username) 
+
+    
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -435,11 +449,4 @@ def previous_status():
 @app.route("/timer")
 @login_required
 def timer():
-    # TODO
     return render_template("timer.html")
-
-
-@app.route("/addtimer")
-@login_required
-def add_timer():
-    return()
