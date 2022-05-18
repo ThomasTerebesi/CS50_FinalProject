@@ -96,11 +96,10 @@ def generate_task_stats():
     fig, ax = plt.subplots()
     ax.pie(sizes, explode=None, labels=labels, autopct="%1.1f%%", shadow=False, startangle=90)
     ax.axis("equal")
-    fig.set_facecolor("#f3f3f3")
 
     # Save plot as image URL
     img = BytesIO()
-    plt.savefig(img, format="png", bbox_inches='tight')
+    plt.savefig(img, format="png", bbox_inches='tight', transparent=True)
     plt.close()
     img.seek(0)
     img_url = base64.b64encode(img.getvalue()).decode("utf8")

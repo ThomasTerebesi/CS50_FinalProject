@@ -27,7 +27,7 @@
             <div class="container-fluid">
 
                 <a class="navbar-brand" href="/">
-                    <h1>prodozo</h1>
+                    <h1 class="display-4">prodozo</h1>
                 </a>
                 
                 <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
@@ -68,9 +68,11 @@
         
         <main class="container-fluid py-5">
             <div class="row">
-                <div class ="col-md-12 col-sm-12">
+                <div class="col-md-2"></div>
+                <div class ="col-md-8 col-sm-8">
                     {% block main %}{% endblock %}
                 </div>
+                <div class="col-md-2"></div>
             </div>
         </main>
         

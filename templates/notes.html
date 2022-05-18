@@ -10,27 +10,32 @@
     </h2>
         {% if not notes %}
             <p>No notes yet.</p>
-        {% else %}
-            <table class="table table-hover">
+        {% else %}          
             {% for note in notes %}
-                <tr>
+                {% if loop.index % 2 != 0 %}
+                <div class="row mb-3">
+                {% endif %}
                     {# TODO: Add a counter in front of each note #}
-                    <td>
-                        {{ note[1]|safe }}
-                    </td>
-                    <td>
-                        <form action="/editnote" method="post">
-                            <input name="id" type="hidden" value="{{ note[0] }}">
-                            <button class="btn btn-warning btn-sm" type="submit">Edit</button>
-                        </form>
-                        <form action="/removenote" method="post">
-                            <input name="id" type="hidden" value="{{ note[0] }}">
-                            <button class="btn btn-danger btn-sm" type="submit">Remove</button>
-                        </form>
-                    </td>
-                </tr>
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            <h4>{{ loop.index }}</h4> 
+                            <p>{{ note[1]|safe }}</p>
+                        </div>
+                        <div class="col-md-12 input-group">
+                            <form action="/editnote" method="post">
+                                <input name="id" type="hidden" value="{{ note[0] }}">
+                                <button class="btn btn-warning btn-sm" type="submit">Edit</button>
+                            </form>
+                            <form action="/removenote" method="post">
+                                <input name="id" type="hidden" value="{{ note[0] }}">
+                                <button class="btn btn-danger btn-sm" type="submit">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                {% if loop.index % 2 == 0 %}
+                </div>
+                {% endif %}
             {% endfor %}
-            </table>
         {% endif %}
     <h2>
         New Note

@@ -5,6 +5,23 @@ let isPaused = false;
 
 const set_button = document.getElementById('set');
 set_button.addEventListener('click', event => {
+    
+    if (parseInt(document.getElementById("min").value) > 360) {
+        document.getElementById("min").value = 360;
+    } else if (parseInt(document.getElementById("min").value) < 0) {
+        document.getElementById("min").value = 0;
+    }
+
+    if (parseInt(document.getElementById("sec").value) > 60) {
+        document.getElementById("min").value = 60;
+    } else if (parseInt(document.getElementById("sec").value) < 0) {
+        document.getElementById("min").value = 0;
+    }
+
+    if (parseInt(document.getElementById("min").value) == 0 && parseInt(document.getElementById("sec").value) == 0) {
+        return;
+    }
+
     startTimer(parseInt(document.getElementById("sec").value) + (parseInt(document.getElementById("min").value) * 60));
 });
 
@@ -79,6 +96,7 @@ function togglePause() {
     }
 }
 
+
 const preset_buttons = document.getElementsByName('preset');
 
 preset_buttons.forEach(element => {
@@ -86,6 +104,7 @@ preset_buttons.forEach(element => {
         startTimer(element.value);
     });
 });
+
 
 function ding() {
     // The file path is relative to the HTML file that executes the script, not to the script itself
