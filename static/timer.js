@@ -5,24 +5,33 @@ let isPaused = false;
 
 const set_button = document.getElementById('set');
 set_button.addEventListener('click', event => {
-    
-    if (parseInt(document.getElementById("min").value) > 360) {
-        document.getElementById("min").value = 360;
-    } else if (parseInt(document.getElementById("min").value) < 0) {
-        document.getElementById("min").value = 0;
+    // Get and store elements
+    const min = document.getElementById("min");
+    const sec = document.getElementById("sec");
+
+    // Ensure valid input for minutes
+    if (parseInt(min.value) > 359) {
+        min.value = 359; 
+    } else if (parseInt(min.value) < 0) {
+        min.value = 0;
+    } else if (min.value === "") {  // If the input contains a character, the element returns an empty string
+        min.value = 0;
     }
 
-    if (parseInt(document.getElementById("sec").value) > 60) {
-        document.getElementById("min").value = 60;
-    } else if (parseInt(document.getElementById("sec").value) < 0) {
-        document.getElementById("min").value = 0;
+    // Ensure valid input for seconds
+    if (parseInt(sec.value) > 60) {
+        sec.value = 60;
+    } else if (parseInt(sec.value) < 0) {
+        sec.value = 0;
+    } else if (sec.value === "") {  // If the input contains a character, the element returns an empty string
+        sec.value = 0;
     }
 
-    if (parseInt(document.getElementById("min").value) == 0 && parseInt(document.getElementById("sec").value) == 0) {
+    if (parseInt(min.value) == 0 && parseInt(sec.value) == 0) {
         return;
     }
 
-    startTimer(parseInt(document.getElementById("sec").value) + (parseInt(document.getElementById("min").value) * 60));
+    startTimer(parseInt(sec.value) + (parseInt(min.value) * 60));
 });
 
 function startTimer(totalSeconds) {

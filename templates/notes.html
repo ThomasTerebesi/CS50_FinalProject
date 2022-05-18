@@ -5,6 +5,12 @@
 {% endblock %}
 
 {% block main %}
+    <p class="text-end">
+        <a href="#newnote" class="text-decoration-none">
+            Go to: New Note
+        </a>
+    </p>
+    
     <h2>
         Your Notes
     </h2>
@@ -22,11 +28,11 @@
                             <p>{{ note[1]|safe }}</p>
                         </div>
                         <div class="col-md-12 input-group">
-                            <form action="/editnote" method="post">
+                            <form action="/editnote" method="post" class="me-1">
                                 <input name="id" type="hidden" value="{{ note[0] }}">
                                 <button class="btn btn-warning btn-sm" type="submit">Edit</button>
                             </form>
-                            <form action="/removenote" method="post">
+                            <form action="/removenote" method="post" class="me-1">
                                 <input name="id" type="hidden" value="{{ note[0] }}">
                                 <button class="btn btn-danger btn-sm" type="submit">Remove</button>
                             </form>
@@ -42,7 +48,10 @@
     </h2>
     <form action="/notes" method="post">
         <div class="mb-3">
-            <textarea autocomplete="off" class="form-control" rows="3" id="newnote" name="newnote" placeholder="New Note" type="text"></textarea>
+            <textarea autocomplete="off" class="form-control" rows="3" maxlength="512" id="newnote" name="newnote" placeholder="New Note" type="text"></textarea>
+            <div id="newnotehelp" class="form-text">
+                Note text must not exceed 512 characters.
+            </div>
         </div>
         <button class="btn btn-primary btn-sm" type="submit">Add Note</button>
     </form>
