@@ -38,7 +38,7 @@
                             </form>
                         </div>
                     </div>
-                {% if loop.index % 2 == 0 %}
+                {% if (loop.index % 2) == 0 or (loop.last) %}
                 </div>
                 {% endif %}
             {% endfor %}
@@ -48,9 +48,9 @@
     </h2>
     <form action="/notes" method="post">
         <div class="mb-3">
-            <textarea autocomplete="off" class="form-control" rows="3" maxlength="512" id="newnote" name="newnote" placeholder="New Note" type="text"></textarea>
+            <textarea autocomplete="off" class="form-control" rows="3" maxlength="1024" id="newnote" name="newnote" placeholder="New Note" type="text"></textarea>
             <div id="newnotehelp" class="form-text">
-                Note text must not exceed 512 characters.
+                Note text must not exceed 1024 characters.
             </div>
         </div>
         <button class="btn btn-primary btn-sm" type="submit">Add Note</button>
