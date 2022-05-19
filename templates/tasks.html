@@ -48,13 +48,13 @@
                                             <input name="id" type="hidden" value="{{ task[0] }}">
                                             <button class="btn btn-danger btn-sm" type="submit">Remove</button>
                                         </form>
-                                        <form action="/nextstatus" method="post" class="me-1">
-                                            <input name="id" type="hidden" value="{{ task[0] }}">
-                                            <button class="btn btn-info btn-sm" type="submit">Next</button>
-                                        </form>
                                         <form action="/prevstatus" method="post" class="me-1">
                                             <input name="id" type="hidden" value="{{ task[0] }}">
                                             <button disabled class="btn btn-info btn-sm" type="submit">Previous</button>
+                                        </form>
+                                        <form action="/nextstatus" method="post" class="me-1">
+                                            <input name="id" type="hidden" value="{{ task[0] }}">
+                                            <button class="btn btn-info btn-sm" type="submit">Next</button>
                                         </form>
                                     </div>
                                 </td>
@@ -82,13 +82,13 @@
                                             <input name="id" type="hidden" value="{{ task[0] }}">
                                             <button class="btn btn-danger btn-sm" type="submit">Remove</button>
                                         </form>
-                                        <form action="/nextstatus" method="post" class="me-1">
-                                            <input name="id" type="hidden" value="{{ task[0] }}">
-                                            <button class="btn btn-info btn-sm" type="submit">Next</button>
-                                        </form>
                                         <form action="/prevstatus" method="post" class="me-1">
                                             <input name="id" type="hidden" value="{{ task[0] }}">
                                             <button class="btn btn-info btn-sm" type="submit">Previous</button>
+                                        </form>
+                                        <form action="/nextstatus" method="post" class="me-1">
+                                            <input name="id" type="hidden" value="{{ task[0] }}">
+                                            <button class="btn btn-info btn-sm" type="submit">Next</button>
                                         </form>
                                     </div>
                                 </td>
@@ -117,14 +117,14 @@
                                         <form action="/removetask" method="post" class="me-1">
                                             <input name="id" type="hidden" value="{{ task[0] }}">
                                             <button class="btn btn-danger btn-sm" type="submit">Remove</button>
+                                        </form>                                        
+                                        <form action="/prevstatus" method="post" class="me-1">
+                                            <input name="id" type="hidden" value="{{ task[0] }}">
+                                            <button class="btn btn-info btn-sm" type="submit">Previous</button>
                                         </form>
                                         <form action="/nextstatus" method="post" class="me-1">
                                             <input name="id" type="hidden" value="{{ task[0] }}">
                                             <button disabled class="btn btn-info btn-sm" type="submit">Next</button>
-                                        </form>
-                                        <form action="/prevstatus" method="post" class="me-1">
-                                            <input name="id" type="hidden" value="{{ task[0] }}">
-                                            <button class="btn btn-info btn-sm" type="submit">Previous</button>
                                         </form>
                                     </div>
                                 </td>
