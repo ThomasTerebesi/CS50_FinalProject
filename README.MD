@@ -17,7 +17,7 @@ The structure of the app is mostly defined in `app.py` through the Flask backend
 `/logout` logs out the user. It clears the active session, which means that the user's ID is forgotten, and redirects them to `/`.
 
 ### Tasks
-`/tasks` checks ensures that a newly created task is valid. It is also used to render the contents of `tasks.html` after each of the other task-related routes. When rendering the page, `generate_task_stats()` from `helpers.py` is called to generate the task statistics seen at the bottom of the task list.
+`/tasks` ensures that a newly created task is valid. It is also used to render the contents of `tasks.html` after each of the other task-related routes. When rendering the page, `generate_task_stats()` from `helpers.py` is called to generate the task statistics seen at the bottom of the task list.
 
 The following routes execute one task and then redirect back to `/tasks`:
 
@@ -25,18 +25,42 @@ The following routes execute one task and then redirect back to `/tasks`:
 
 `/edittask` handles task editing.
 
-`/submitedittask` handles the submission of an edited task.
+`/submittaskedit` updates the edited task.
 
 `/nextstatus` and `/prevstatus` move a task to the next or previous status, respectively. To achieve that, they use the `move_task()` helper function defined in `helpers.py`.
 
 ### Notes
+`/notes` renders the contents of `notes.html`. It also makes sure that new notes are valid. 
 
+The routes below redirect to `/notes`:
+`/removenote` handles note removal.
+
+`/editnote` handles note editing.
+
+`/submitnoteedit` updates the edited note.
 
 ### Timer
+`timer` redirects to `timer.html`; this page embeds `timer.js`, which contains the logic for how the timer tool works. This is also the only JavaScript used on this project. The timer was created with fairly basic JavaScript functionality, the interesting parts are how the presets are handled and how setting, resetting and clearing intervals is managed in basically all functions.
 
 ### `helpers.py`
+A couple of the functions contained in `helpers.py` have already been mentioned above. It also contains:
 
-## Future Improvements
+* A decorator function called `login_required()` that ensures that most routes can only be accessed with while in a session with an active user ID.
+
+* An `ensure_database()` function that makes sure that there is a database file with the right schema, or, if there is not, that it is created.
+
+## Potential Improvements
+There's some functionality that was initially planned for but was dropped in order to not suffer from feature creep and never finish the project:
+* Implementing proper handling of newline characters in user input.
+* Task tracker functionality:
+    * Prevent reloading the page after changing the status of or removing a task
+    * Editing without redirecting to another page
+    * Keep track of
+        * Task's creation date
+        * Deadline(s) set by the user
+* Timer functionality:
+    * Flashier effects when the timer finishes
+    * Store some of the values used by the user so they can re-use them later
 
 
 
